@@ -1,0 +1,3 @@
+#!/system/bin/sh
+./killall com.android.nfc
+./killall com.google.android.tag

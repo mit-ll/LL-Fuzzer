@@ -1,0 +1,84 @@
+"""
+    Fuzzing template for maps AAR
+
+    (c) 2015 Massachusetts Institute of Technology
+"""
+# define grammar for NDEF Message
+s_initialize("NDEF URI WITH AAR")
+
+
+# ==============================
+# Record 1
+
+# NDEF record header
+s_byte(0x91, format="binary", name="header", full_range=True, fuzzable=False)
+
+# NDEF type length field, tied to 'type block'
+s_size("type block", name="type length", format="binary", length=1, fuzzable=False)
+
+# Short payload, depends on whether SR flag is set
+s_size("payload block", format="binary", length = 1, fuzzable=False)
+
+# Id Length block, depends on whether IL flag is set
+#if s_block_start("id length block", dep="header", dep_value=8, dep_compare="!&"):
+#    s_size("id block", name="id length", format="binary", length=1, math=lambda x: x/2, fuzzable=False)
+#s_block_end()
+
+# Type block
+if s_block_start("type block"):
+    s_string("Sp", fuzzable=True)
+s_block_end()
+
+
+# ID block
+#if s_block_start("id block", dep="header", dep_value=8, dep_compare="!&"):
+#    s_string("ID!", encoding="hex", fuzzable=False)
+#s_block_end()
+
+
+# The payload
+# Taken from a real working tag for Google maps
+# \x91\x01\x19U\x00geo:42.358769,-71.092081Q\x01\x06T\x02enMIT
+if s_block_start("payload block"):
+    s_word(0x9101, format="binary", fuzzable=True)
+    s_byte(0x19, format="binary", fuzzable=True)
+    s_string("U", fuzzable=True)
+    s_byte(0x00, format="binary", fuzzable=True)
+    s_string("geo:42.358769,-71.092081Q", name="geo", fuzzable=True)
+    s_word(0x0106, format="binary", fuzzable=True)
+    s_string("T", fuzzable=True)
+    s_byte(0x02, format="binary", fuzzable=True)
+    s_string("enMIT", name="n", fuzzable=True)
+s_block_end()
+
+
+# ==============================
+# Record 2
+
+
+# NDEF record header
+s_byte(0x54, format="binary", name="header2", full_range=True, fuzzable=False)
+
+# NDEF type length field, tied to 'type block'
+s_size("type block2", name="type length2", format="binary", length=1, fuzzable=False)
+
+# Short payload, depends on whether SR flag is set
+s_size("payload block2", format="binary", length = 1, fuzzable=False)
+
+# Type block
+if s_block_start("type block2"):
+    s_string("android.com:pkg", fuzzable=True)
+s_block_end()
+
+
+# The payload
+if s_block_start("payload block2"):
+    s_string("com.google.android.apps.maps", name="package", fuzzable=True)
+s_block_end()
+
+
+
+# ====================================
+# Add the protocol struct
+
+self.add_protocol_struct("NDEF URI WITH AAR")
