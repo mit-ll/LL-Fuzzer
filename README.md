@@ -127,8 +127,7 @@ phone at that fixed distance for the duration of the fuzzing.
 
 # Citation
 
-Please use this DOI number reference, published on Zenodo, when citing the software:
-
+Please use this DOI number reference, published on [Zenodo](https://zenodo.org), when citing the software:    
 [![DOI](https://zenodo.org/badge/38062363.svg)](https://zenodo.org/badge/latestdoi/38062363)
 
 # Disclaimer
