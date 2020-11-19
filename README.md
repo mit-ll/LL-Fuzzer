@@ -125,6 +125,11 @@ A more elegant setup is certainly possible, but any reliable setup will
 need a way of tweaking the distance and then holding the reader and 
 phone at that fixed distance for the duration of the fuzzing.
 
+# Citation
+
+Please use this DOI number reference, published on Zenodo, when citing the software:
+
+[![DOI](https://zenodo.org/badge/38062363.svg)](https://zenodo.org/badge/latestdoi/38062363)
 
 # Disclaimer
 
